@@ -1,0 +1,423 @@
+			SQL Exercise 1
+
+=============================================================================================
+1. Create the table SEMP with the following structure:-
+EMPNO CHAR(4)
+EMPNAME CHAR(20)
+BASIC FLOAT
+DEPTNO CHAR(2)
+DEPTHEAD CHAR(4)
+
+-->
+
+mysql>create table SEMP
+	(EMPNO CHAR(4),
+	EMPNAME CHAR(20),
+	BASIC FLOAT,
+	DEPTNO CHAR (2),
+	DEPTHEAD CHAR (4));
+
+
+mysql> show tables;
++-----------------+
+| Tables_in_karad |
++-----------------+
+| emp             |
+| semp            |
++-----------------+
+2 rows in set (0.00 sec)
+
+mysql> desc SEMP;
++----------+----------+------+-----+---------+-------+
+| Field    | Type     | Null | Key | Default | Extra |
++----------+----------+------+-----+---------+-------+
+| EMPNO    | char(4)  | YES  |     | NULL    |       |
+| EMPNAME  | char(20) | YES  |     | NULL    |       |
+| BASIC    | float    | YES  |     | NULL    |       |
+| DEPTNO   | char(2)  | YES  |     | NULL    |       |
+| DEPTHEAD | char(4)  | YES  |     | NULL    |       |
++----------+----------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Create the table SDEPT with the following structure:-
+DEPTNO CHAR(2)
+DEPTNAME CHAR(15)
+
+-->
+
+mysql> create table SDEPT
+    -> (DEPTNO CHAR(2),
+    -> DEPTNAME CHAR (15));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_karad |
++-----------------+
+| emp             |
+| sdept           |
+| semp            |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> desc sdept;
++----------+----------+------+-----+---------+-------+
+| Field    | Type     | Null | Key | Default | Extra |
++----------+----------+------+-----+---------+-------+
+| DEPTNO   | char(2)  | YES  |     | NULL    |       |
+| DEPTNAME | char(15) | YES  |     | NULL    |       |
++----------+----------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Insert into the SDEPT table the following values:-
+10, Development
+20, Training
+
+-->
+
+mysql> insert into sdept(deptno, deptname )
+    -> values('10', 'Development' ),
+    ->       ('20', 'Training' );
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from sdept;
++--------+-------------+
+| DEPTNO | DEPTNAME    |
++--------+-------------+
+| 10     | Development |
+| 20     | Training    |
++--------+-------------+
+2 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Insert into the SEMP table the following values:-
+0001, SUNIL, 6000, 10
+0002, HIREN, 8000, 20
+0003, ALI, 4000, 10, 0001
+0004, GEORGE, 6000, 0002
+
+-->
+
+mysql> insert into semp
+    -> values('0001', 'SUNIL', 6000, '10', null);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into semp
+    -> values('0002', 'HIREN', 8000, '20', null);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into semp (EMPNO,EMPNAME,BASIC,DEPTNO,DEPTHEAD)
+    -> values('0003','ALI',4000,'10','0001'),
+    ->       ('0004','GEORG',6000,null,'0002');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from semp;
++-------+---------+-------+--------+----------+
+| EMPNO | EMPNAME | BASIC | DEPTNO | DEPTHEAD |
++-------+---------+-------+--------+----------+
+| 0001  | SUNIL   |  6000 | 10     | NULL     |
+| 0002  | HIREN   |  8000 | 20     | NULL     |
+| 0003  | ALI     |  4000 | 10     | 0001     |
+| 0004  | GEORG   |  6000 | NULL   | 0002     |
++-------+---------+-------+--------+----------+
+4 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Create S, P, J, SPJ tables as specified below and insert a few rows in each table:-
+SUPPLIER			-	S
+(S#, Sname, Status, City)
+
+PARTS				-	P
+(P#, Pname, Color, Weight, City)
+
+PROJECTS			-	J
+(J#, Jname, City)
+
+SUPPLIER-PARTS-PROJECT		-	SPJ
+(S#, P#, J#, Qty)
+
+Sample data for S# column:- ‘S1’, ‘S2’, ‘S3’, etc.
+Sample data for P# column:- ‘P1’, ‘P2’, ‘P3’, etc.
+Sample data for J# column:- ‘J1’, ‘J2’, ‘J3’, etc.
+Sample data for Status column:- 10, 20, 30, etc.
+
+-->
+
+mysql> create table S
+    -> (`S#` char (2),
+    -> Sname char(10),
+    -> Status char(2),
+    -> City char(10));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> create table P
+    -> (`P#` char(2),
+    -> Pname char (10),
+    -> Color char (10),
+    -> Weight char (10),
+    -> City char (10));
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> create table J
+    -> (`J#` char (2),
+    -> Jname char(10),
+    -> City char (10));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table SPJ
+    -> (`S#` char (2),
+    ->  `P#` char (2),
+    ->  `J#` char (2),
+    ->  Qty char (5));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_karad |
++-----------------+
+| emp             |
+| j               |
+| p               |
+| s               |
+| sdept           |
+| semp            |
+| spj             |
++-----------------+
+7 rows in set (0.01 sec)
+
+mysql> insert into S (`S#`, Sname, Status, City)
+    -> values ('S1', 'Ajay', '10', 'Bengaluru'),
+    ->        ('S2', 'Sanket', '20', 'Pune');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from S;
++------+--------+--------+-----------+
+| S#   | Sname  | Status | City      |
++------+--------+--------+-----------+
+| S1   | Ajay   | 10     | Bengaluru |
+| S2   | Sanket | 20     | Pune      |
++------+--------+--------+-----------+
+2 rows in set (0.01 sec)
+
+
+mysql> insert into P(`P#`, Pname, Color, Weight, City)
+    ->       values ('P1', 'Prem','White','59','Mumbai'),
+    ->              ('P2', 'Yash','Red','90', 'Sangli');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from P;
++------+-------+-------+--------+--------+
+| P#   | Pname | Color | Weight | City   |
++------+-------+-------+--------+--------+
+| P1   | Prem  | White | 59     | Mumbai |
+| P2   | Yash  | Red   | 90     | Sangli |
++------+-------+-------+--------+--------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> insert into J (`J#`, Jname, City)
+    -> values ('J1','Jack','Jalana'),
+    ->        ('J2','Deep','Daman');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from J;
++------+-------+--------+
+| J#   | Jname | City   |
++------+-------+--------+
+| J1   | Jack  | Jalana |
+| J2   | Deep  | Daman  |
++------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> insert into SPJ (`S#`, `P#`,`J#`,Qty)
+    -> values ('S2','P2','J2','3030');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from SPJ;
++------+------+------+------+
+| S#   | P#   | J#   | Qty  |
++------+------+------+------+
+| S1   | P1   | J1   | 1001 |
+| S2   | P2   | J2   | 3030 |
++------+------+------+------+
+2 rows in set (0.01 sec)
+
+Write the SELECT queries to do the following:-
+
+5. Display all the data from the S table.
+-->
+
+mysql> select * from S;
++------+--------+--------+-----------+
+| S#   | Sname  | Status | City      |
++------+--------+--------+-----------+
+| S1   | Ajay   | 10     | Bengaluru |
+| S2   | Sanket | 20     | Pune      |
++------+--------+--------+-----------+
+2 rows in set (0.00 sec)
+
+
+6. Display only the S# and SNAME fields from the S table.
+-->
+
+mysql> select `S#`, Sname from S;
++------+--------+
+| S#   | Sname  |
++------+--------+
+| S1   | Ajay   |
+| S2   | Sanket |
++------+--------+
+2 rows in set (0.00 sec)
+
+
+7. Display the PNAME and COLOR from the P table for the CITY=”Sangli”.
+-->
+
+mysql>  select Pname, Color from P
+    ->  where City = 'Sangli';
++-------+-------+
+| Pname | Color |
++-------+-------+
+| Yash  | Red   |
++-------+-------+
+1 row in set (0.00 sec)
+
+
+8. Display all the Suppliers from Pune.
+-->
+
+mysql> select Sname from S
+    -> where City ='Pune';
++--------+
+| Sname  |
++--------+
+| Sanket |
++--------+
+1 row in set (0.00 sec)
+
+
+9. Display all the Suppliers from Pune or Bengaluru.
+-->
+
+mysql> select Sname from S
+    -> where City = 'Pune' or city = 'Bengaluru';
++--------+
+| Sname  |
++--------+
+| Ajay   |
+| Sanket |
++--------+
+2 rows in set (0.00 sec)
+
+
+10. Display all the Projects in Daman.
+-->
+
+mysql> select Jname from J
+    -> where city = 'Daman';
++-------+
+| Jname |
++-------+
+| Deep  |
++-------+
+1 row in set (0.00 sec)
+
+
+11. Display all the Partnames with the weight between 50 and 90 (inclusive of both).
+-->
+
+mysql> select * from P
+    -> where Weight >= 50 and weight <=90;
++------+-------+-------+--------+--------+
+| P#   | Pname | Color | Weight | City   |
++------+-------+-------+--------+--------+
+| P1   | Prem  | White | 59     | Mumbai |
+| P2   | Yash  | Red   | 90     | Sangli |
++------+-------+-------+--------+--------+
+2 rows in set (0.00 sec)
+
+
+12. Display all the Suppliers with a Status greater than or equal to 20.
+-->
+
+mysql> select * from S
+    -> where Status >= 20;
++------+--------+--------+------+
+| S#   | Sname  | Status | City |
++------+--------+--------+------+
+| S2   | Sanket | 20     | Pune |
++------+--------+--------+------+
+1 row in set (0.00 sec)
+
+
+13. Display all the Suppliers except the Suppliers from Pune.
+-->
+
+mysql>  select * from S
+    ->  where city != 'Pune';
++------+-------+--------+-----------+
+| S#   | Sname | Status | City      |
++------+-------+--------+-----------+
+| S1   | Ajay  | 10     | Bengaluru |
++------+-------+--------+-----------+
+1 row in set (0.00 sec)
+
+
+14. Display only the Cities from where the Suppliers come from.
+-->
+
+mysql> select city from S;
++-----------+
+| city      |
++-----------+
+| Bengaluru |
+| Pune      |
++-----------+
+2 rows in set (0.00 sec)
+
+
+
+15. Assuming that the Part Weight is in GRAMS, display the same in MILLIGRAMS and KILOGRAMS.
+-->
+
+mysql>  select weight "GRAMS", weight*1000 "MILLIGRAMS", weight/1000 "KILOGRAMS" from P;
++-------+------------+-----------+
+| GRAMS | MILLIGRAMS | KILOGRAMS |
++-------+------------+-----------+
+| 59    |      59000 |     0.059 |
+| 90    |      90000 |      0.09 |
++-------+------------+-----------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

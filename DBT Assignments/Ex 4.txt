@@ -1,0 +1,255 @@
+						SQL Exercise 4
+
+==============================================================================================================
+
+
+              supplier
++------+---------+--------+-----------+
+| S#   | Sname   | Status | City      |
++------+---------+--------+-----------+
+| S1   | Ajay    | 10     | Bengaluru |
+| S2   | Sanket  | 20     | Pune      |
+| S3   | Shubham | 15     | Latur     |
+| S4   | Raju    | 19     | Karad     |
+| S5   | Dilip   | 35     | Lonand    |
++------+---------+--------+-----------+
+
+
+                  parts
++------+---------+-------+--------+----------+
+| P#   | Pname   | Color | Weight | City     |
++------+---------+-------+--------+----------+
+| P1   | Wheel   | Black |  59.30 | Mumbai   |
+| P2   | Sunroof | White |  12.22 | Pune     |
+| P3   | Belt    | Grey  |  14.50 | Mumbai   |
+| P4   | Seat    | Brown |   9.80 | Satara   |
+| P5   | Door    | Red   |  95.31 | Kolhapur |
++------+---------+-------+--------+----------+
+
+
+          projects
++------+----------+--------+
+| J#   | Jname    | City   |
++------+----------+--------+
+| J1   | Daniel   | Jalana |
+| J2   | Anthony  | Jalgao |
+| J3   | Jack     | Pune   |
+| J4   | Jonathan | Mumbai |
+| J5   | Melinda  | Daman  |
++------+----------+--------+
+
+
+ 	     spj
++------+------+------+------+
+| S#   | P#   | J#   | Qty  |
++------+------+------+------+
+| S1   | P1   | J1   | 500  |
+| S1   | P2   | J1   | 600  |
+| S2   | P1   | J2   | 650  |
+| S3   | P2   | J2   | 750  |
+| S2   | P3   | J3   | 900  |
+| S3   | P3   | J3   | 450  |
++------+------+------+------+
+
+
+==============================================================================================================
+
+
+mysql>  insert into spj (`S#`, `p#`, `j#`, qty)
+    ->  values ('S1', 'P1', 'J1', '500'),
+    ->         ('S1', 'P2', 'J1', '600'),
+    -> 	       ('S2', 'P1', 'J2', '650'),
+    ->         ('S3', 'P2', 'J2', '750'),
+    ->         ('S2', 'P3', 'J3', '900'),
+    ->         ('S3', 'P3', 'J3', '450');
+Query OK, 6 rows affected (0.02 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from spj;
++------+------+------+------+
+| S#   | P#   | J#   | Qty  |
++------+------+------+------+
+| S1   | P1   | J1   | 500  |
+| S1   | P2   | J1   | 600  |
+| S2   | P1   | J2   | 650  |
+| S3   | P2   | J2   | 750  |
+| S2   | P3   | J3   | 900  |
+| S3   | P3   | J3   | 450  |
++------+------+------+------+
+6 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+1. Display the minimum Status in the Supplier table.
+-->
+
+mysql> select min(status) from supplier;
++-------------+
+| min(status) |
++-------------+
+| 10          |
++-------------+
+1 row in set (0.01 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2. Display the maximum Weight in the Parts table.
+-->
+
+mysql> select max(weight) from parts;
++-------------+
+| max(weight) |
++-------------+
+|       95.31 |
++-------------+
+1 row in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+3. Display the average Weight of the Parts.
+-->
+
+mysql> select avg(weight) from parts;
++-------------+
+| avg(weight) |
++-------------+
+|   38.225999 |
++-------------+
+1 row in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+4. Display the total Quantity sold for part ‘P1’.
+-->
+
+mysql> select sum(qty) from spj
+    -> where `P#` = 'p1';
++----------+
+| sum(qty) |
++----------+
+|     1001 |
++----------+
+
+1 row in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+5. Display the total Quantity sold for each part.
+-->
+
+mysql> select `P#`, sum(qty) from spj
+    -> group by `P#`;
++------+----------+
+| P#   | sum(qty) |
++------+----------+
+| P1   |     1150 |
+| P2   |     1350 |
+| P3   |     1350 |
++------+----------+
+3 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+6. Display the average Quantity sold for each part.
+-->
+
+mysql> select `P#`, avg(qty) from spj
+    -> group by `P#`;
++------+----------+
+| P#   | avg(qty) |
++------+----------+
+| P1   |      575 |
+| P2   |      675 |
+| P3   |      675 |
++------+----------+
+3 rows in set (0.01 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+7. Display the maximum Quantity sold for each part, provided the 
+   maximum Quantity is greater than 800.
+-->
+
+mysql> select  `P#`, max(qty) from spj
+    -> group by `P#`
+    -> having max(qty) > '800';
++------+----------+
+| P#   | max(qty) |
++------+----------+
+| P3   | 900      |
++------+----------+
+1 row in set (0.01 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+8. Display the Status and the count of Suppliers with that Status.
+-->
+
+mysql> select status, count(status) from supplier
+    -> group by status;
++--------+---------------+
+| status | count(status) |
++--------+---------------+
+| 10     |             1 |
+| 20     |             1 |
+| 15     |             1 |
+| 19     |             1 |
+| 35     |             1 |
++--------+---------------+
+5 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+9. Display the count of Projects going on in different cities.
+-->
+
+mysql> select city, count(city) from projects
+    -> group by city;
++--------+-------------+
+| city   | count(city) |
++--------+-------------+
+| Jalana |           1 |
+| Jalgao |           1 |
+| Pune   |           1 |
+| Mumbai |           1 |
+| Daman  |           1 |
++--------+-------------+
+5 rows in set (0.01 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+10. What is the difference between COUNT(Status) and COUNT(*) ?
+-->
+
+COUNT(Status) returns count of number of rows where Status is not having null value.
+
+COUNT(*)  returns count of total number of rows in table. 
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+11. Display the Status and the Count of Suppliers with that Status 
+    in the following format as shown below:-
+
+Status Count
+Ten 	1
+Twenty  2
+Thirty  3
+-->
+
+mysql> select case
+    -> when status = 10 then 'Ten'
+    -> when status = 20 then 'Twenty'
+    -> when status = 15 then 'Fifteen'
+    -> when status = 19 then 'Ninteen'
+    -> when status = 35 then 'Thirtyfive'
+    -> end Status,
+    -> count(`S#`) as Count from supplier
+    -> group by status;
++------------+-------+
+| Status     | Count |
++------------+-------+
+| Ten        |     1 |
+| Twenty     |     1 |
+| Fifteen    |     1 |
+| Ninteen    |     1 |
+| Thirtyfive |     1 |
++------------+-------+
+5 rows in set, 1 warning (0.00 sec)
+
+
+
+
+
+

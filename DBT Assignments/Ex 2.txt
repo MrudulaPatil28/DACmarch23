@@ -1,0 +1,204 @@
+						SQL Exercise 2
+
+-----------------------------------------------------------------------------------------------------------------
+
+mysql> create table Supplier
+    -> (`S#` char (2),
+    ->  Sname varchar(10),
+    ->  Status varchar(2),
+    ->  City varchar(10));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into Supplier(`S#`, Sname, Status, City)
+    -> values ('S1', 'Ajay', '10', 'Bengaluru'),
+    ->        ('S2', 'Sanket', '20', 'Pune'),
+    ->        ('S3', 'Shubham', '15', 'Latur'),
+    ->        ('S4', 'Raju', '19', 'Karad'),
+    ->        ('S5', 'Dilip', '35', 'Lonand');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Supplier;
++------+---------+--------+-----------+
+| S#   | Sname   | Status | City      |
++------+---------+--------+-----------+
+| S1   | Ajay    | 10     | Bengaluru |
+| S2   | Sanket  | 20     | Pune      |
+| S3   | Shubham | 15     | Latur     |
+| S4   | Raju    | 19     | Karad     |
+| S5   | Dilip   | 35     | Lonand    |
++------+---------+--------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> create table Parts
+    -> (`P#` char(2),
+    ->  Pname varchar (10),
+    ->  Color varchar (10),
+    ->  Weight float (5,2),
+    ->  City char (10));
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+mysql> insert into Parts (`P#`, Pname, Color, Weight, City)
+    -> values ('P1', 'Wheel','Black','59.30','Mumbai'),
+    -> 	      ('P2', 'Sunroof','White','12.22','Pune'),
+    ->        ('P3', 'Belt','Grey','14.5','Mumbai'),
+    -> 	      ('P4', 'Seat','Brown','9.80','Satara'),
+    ->        ('P5', 'Door','Red','95.31', 'Kolhapur');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from parts;
++------+---------+-------+--------+----------+
+| P#   | Pname   | Color | Weight | City     |
++------+---------+-------+--------+----------+
+| P1   | Wheel   | Black |  59.30 | Mumbai   |
+| P2   | Sunroof | White |  12.22 | Pune     |
+| P3   | Belt    | Grey  |  14.50 | Mumbai   |
+| P4   | Seat    | Brown |   9.80 | Satara   |
+| P5   | Door    | Red   |  95.31 | Kolhapur |
++------+---------+-------+--------+----------+
+5 rows in set (0.00 sec)
+
+
+mysql> create table Projects
+    -> (`J#` char (2),
+    ->  Jname varchar(10),
+    ->  City varchar (10));
+Query OK, 0 rows affected (0.02 sec)
+
+
+mysql> insert into Projects (`J#`, Jname, City)
+    -> values ('J1','Daniel','Jalana'),
+    -> 	      ('J2','Anthony','Jalgao'),
+    ->        ('J3','Jack','Pune'),
+    ->        ('J4','Jonathan','Mumbai'),
+    ->        ('J5','Melinda','Daman');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Projects;
++------+----------+--------+
+| J#   | Jname    | City   |
++------+----------+--------+
+| J1   | Daniel   | Jalana |
+| J2   | Anthony  | Jalgao |
+| J3   | Jack     | Pune   |
+| J4   | Jonathan | Mumbai |
+| J5   | Melinda  | Daman  |
++------+----------+--------+
+5 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+1. Display the Supplier table in the descending order of CITY.
+-->
+
+mysql> select * from supplier
+    -> order by city desc;
++------+---------+--------+-----------+
+| S#   | Sname   | Status | City      |
++------+---------+--------+-----------+
+| S2   | Sanket  | 20     | Pune      |
+| S5   | Dilip   | 35     | Lonand    |
+| S3   | Shubham | 15     | Latur     |
+| S4   | Raju    | 19     | Karad     |
+| S1   | Ajay    | 10     | Bengaluru |
++------+---------+--------+-----------+
+5 rows in set (0.01 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Display the Part Table in the ascending order of CITY and 
+   within the city in the ascending order of Part names.
+-->
+mysql> select * from Parts
+    -> order by city, pname;
++------+---------+-------+--------+----------+
+| P#   | Pname   | Color | Weight | City     |
++------+---------+-------+--------+----------+
+| P5   | Door    | Red   |  95.31 | Kolhapur |
+| P3   | Belt    | Grey  |  14.50 | Mumbai   |
+| P1   | Wheel   | Black |  59.30 | Mumbai   |
+| P2   | Sunroof | White |  12.22 | Pune     |
+| P4   | Seat    | Brown |   9.80 | Satara   |
++------+---------+-------+--------+----------+
+5 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Display all the Suppliers with a status between 10 and 20.
+-->
+
+mysql> select * from supplier
+    -> where status  between 10 and 20;
++------+---------+--------+-----------+
+| S#   | Sname   | Status | City      |
++------+---------+--------+-----------+
+| S1   | Ajay    | 10     | Bengaluru |
+| S2   | Sanket  | 20     | Pune      |
+| S3   | Shubham | 15     | Latur     |
+| S4   | Raju    | 19     | Karad     |
++------+---------+--------+-----------+
+4 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Display all the Parts and their Weight, which are not in the range of 10 and 15.
+-->
+mysql> select pname ,weight from parts
+    -> where weight not between 10 and 15;
++-------+--------+
+| pname | weight |
++-------+--------+
+| Wheel |  59.30 |
+| Seat  |   9.80 |
+| Door  |  95.31 |
++-------+--------+
+3 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+5. Display all the Part names starting with the letter ‘S’.
+-->
+
+mysql> select pname from parts
+    -> where pname like 'S%';
++---------+
+| pname   |
++---------+
+| Sunroof |
+| Seat    |
++---------+
+2 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+6. Display all the Suppliers, belonging to cities starting with the letter ‘L’.
+-->
+
+mysql> select * from supplier
+    -> where city like 'L%';
++------+---------+--------+--------+
+| S#   | Sname   | Status | City   |
++------+---------+--------+--------+
+| S3   | Shubham | 15     | Latur  |
+| S5   | Dilip   | 35     | Lonand |
++------+---------+--------+--------+
+2 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+7. Display all the Projects, with the third letter in JNAME as ‘n’.
+-->
+
+mysql> select * from projects
+    -> where jname like '__n%';
++------+----------+--------+
+| J#   | Jname    | City   |
++------+----------+--------+
+| J1   | Daniel   | Jalana |
+| J4   | Jonathan | Mumbai |
++------+----------+--------+
+2 rows in set (0.00 sec)
+
+

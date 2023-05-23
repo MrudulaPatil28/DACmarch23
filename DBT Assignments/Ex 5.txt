@@ -1,0 +1,276 @@
+			SQL Exercise 5
+
+=================================================================================
+
+              supplier
++------+---------+--------+-----------+
+| S#   | Sname   | Status | City      |
++------+---------+--------+-----------+
+| S1   | Ajay    | 10     | Bengaluru |
+| S2   | Sanket  | 20     | Pune      |
+| S3   | Shubham | 15     | Latur     |
+| S4   | Raju    | 19     | Karad     |
+| S5   | Dilip   | 35     | Lonand    |
++------+---------+--------+-----------+
+
+
+                  parts
++------+---------+-------+--------+----------+
+| P#   | Pname   | Color | Weight | City     |
++------+---------+-------+--------+----------+
+| P1   | Wheel   | Black |  59.30 | Mumbai   |
+| P2   | Sunroof | White |  12.22 | Pune     |
+| P3   | Belt    | Grey  |  14.50 | Mumbai   |
+| P4   | Seat    | Brown |   9.80 | Satara   |
+| P5   | Door    | Red   |  95.31 | Kolhapur |
++------+---------+-------+--------+----------+
+
+
+          projects
++------+----------+--------+
+| J#   | Jname    | City   |
++------+----------+--------+
+| J1   | Daniel   | Jalana |
+| J2   | Anthony  | Jalgao |
+| J3   | Jack     | Pune   |
+| J4   | Jonathan | Mumbai |
+| J5   | Melinda  | Daman  |
++------+----------+--------+
+
+
+ 	     spj
++------+------+------+------+
+| S#   | P#   | J#   | Qty  |
++------+------+------+------+
+| S1   | P1   | J1   | 500  |
+| S1   | P2   | J1   | 600  |
+| S2   | P1   | J2   | 650  |
+| S3   | P2   | J2   | 750  |
+| S2   | P3   | J3   | 900  |
+| S3   | P3   | J3   | 450  |
++------+------+------+------+
+
+
+
+=================================================================================
+
+1. Display the Supplier name and the Quantity sold.
+-->
+
+mysql> select sname Supplier_name, qty Quantity_sold from supplier, spj
+    -> where supplier.`S#` = spj.`S#`;
++---------------+---------------+
+| Supplier_name | Quantity_sold |
++---------------+---------------+
+| Ajay          | 500           |
+| Ajay          | 600           |
+| Sanket        | 650           |
+| Shubham       | 750           |
+| Sanket        | 900           |
+| Shubham       | 450           |
++---------------+---------------+
+6 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Display the Part name and Quantity sold.
+-->
+
+mysql> select pname Part_name, qty Quantity_sold from parts, spj
+    -> where parts.`P#` = spj.`p#`;
++-----------+---------------+
+| Part_name | Quantity_sold |
++-----------+---------------+
+| Wheel     | 500           |
+| Sunroof   | 600           |
+| Wheel     | 650           |
+| Sunroof   | 750           |
+| Belt      | 900           |
+| Belt      | 450           |
++-----------+---------------+
+6 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Display the Project name and Quantity sold.
+-->
+
+mysql>  select jname Project_name, qty Quantity_sold from projects,spj
+    ->  where projects.`J#` = spj. `J#`;
++--------------+---------------+
+| Project_name | Quantity_sold |
++--------------+---------------+
+| Daniel       | 500           |
+| Daniel       | 600           |
+| Anthony      | 650           |
+| Anthony      | 750           |
+| Jack         | 900           |
+| Jack         | 450           |
++--------------+---------------+
+6 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. Display the Supplier name, Part name, Project name and Quantity sold.
+-->
+
+mysql> select sname, pname, jname, qty from supplier, parts, projects, spj
+    -> where supplier.`S#` = spj.`S#` and
+    -> 	        parts.`P#` = spj.`P#` and
+    ->       projects.`J#` = spj.`J#` ;
++---------+---------+---------+------+
+| sname   | pname   | jname   | qty  |
++---------+---------+---------+------+
+| Ajay    | Sunroof | Daniel  | 600  |
+| Ajay    | Wheel   | Daniel  | 500  |
+| Shubham | Sunroof | Anthony | 750  |
+| Sanket  | Wheel   | Anthony | 650  |
+| Sanket  | Belt    | Jack    | 900  |
+| Shubham | Belt    | Jack    | 450  |
++---------+---------+---------+------+
+6 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+5. Display the Supplier name, Supplying Parts to a Project in the same City.
+-->
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+6. Display the Part name that is ‘Grey’ is color, and the Quantity sold.
+-->
+
+mysql> select pname, qty from parts, spj
+    -> where parts.`P#` =spj.`P#`
+    -> and parts.color = 'grey';
++-------+------+
+| pname | qty  |
++-------+------+
+| Belt  | 900  |
+| Belt  | 450  |
++-------+------+
+2 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+7. Display all the Quantity sold by Suppliers with the Status = 20.
+-->
+
+mysql> select status, qty from supplier, spj
+    -> where supplier.`S#` = spj.`S#`
+    -> and status = '20'
++--------+------+
+| status | qty  |
++--------+------+
+| 20     | 650  |
+| 20     | 900  |
++--------+------+
+2 rows in set (0.01 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+8. Display all the Parts and Quantity with a Weight > 14.
+-->
+
+mysql> select pname,weight, qty from parts, spj
+    -> where parts.`P#` = spj.`P#`
+    -> and weight > '14';
++-------+--------+------+
+| pname | weight | qty  |
++-------+--------+------+
+| Wheel |  59.30 | 500  |
+| Wheel |  59.30 | 650  |
+| Belt  |  14.50 | 900  |
+| Belt  |  14.50 | 450  |
++-------+--------+------+
+4 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+9. Display all the Project names and City, which has bought more than 500 Parts.
+-->
+
+mysql> select jname, city,qty from projects, spj
+    -> where projects.`J#` = spj.`J#`
+    -> and qty > '500';
++---------+--------+------+
+| jname   | city   | qty  |
++---------+--------+------+
+| Daniel  | Jalana | 600  |
+| Anthony | Jalgao | 750  |
+| Anthony | Jalgao | 650  |
+| Jack    | Pune   | 900  |
++---------+--------+------+
+4 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+10. Display all the Part names and Quantity sold that have a Weight less than 15.
+-->
+
+mysql> select pname, weight, qty from parts, spj
+    -> where parts.`P#` = spj.`P#`
+    -> and weight < '15';
++---------+--------+------+
+| pname   | weight | qty  |
++---------+--------+------+
+| Sunroof |  12.22 | 600  |
+| Sunroof |  12.22 | 750  |
+| Belt    |  14.50 | 900  |
+| Belt    |  14.50 | 450  |
++---------+--------+------+
+4 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+11. Display all the Employee names and the name of their Managers.
+-->
+
+mysql> create table EMPLOYEE
+    -> (EMPNo char(2),
+    ->  EName varchar(20),
+    ->  Sal int (10),
+    ->  DeptNo char(2),
+    ->  MGR char(2)
+        job char(2);
+Query OK, 0 rows affected, 1 warning (0.08 sec)
+
+mysql> INSERT INTO employee (empno, ename, sal, deptno, job, mgr)
+    -> VALUES ('1', 'Arun', 8000, '1', 'M', '4'),
+    ->        ('2', 'Ali', 7000, '1', 'C', '1'),
+    ->        ('3', 'Kiran', 3000, '1', 'C', '1'),
+    ->        ('4', 'Jack', 9000, '2', 'M', NULL),
+    ->        ('5', 'Thomas', 8000, '2', 'C', '4');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+--------+------+--------+------+------+
+| EMPNo | EName  | Sal  | DeptNo | MGR  | job  |
++-------+--------+------+--------+------+------+
+| 1     | Arun   | 8000 | 1      | 4    | M    |
+| 2     | Ali    | 7000 | 1      | 1    | C    |
+| 3     | Kiran  | 3000 | 1      | 1    | C    |
+| 4     | Jack   | 9000 | 2      | NULL | M    |
+| 5     | Thomas | 8000 | 2      | 4    | C    |
++-------+--------+------+--------+------+------+
+5 rows in set (0.00 sec)
+
+mysql> select case
+    -> when mgr = '1' then 'Arun'
+    -> when mgr = '4' then 'Jack'
+    -> else 'None'
+    -> end mgr, ename
+    -> from employee;
++------+--------+
+| mgr  | ename  |
++------+--------+
+| Jack | Arun   |
+| Arun | Ali    |
+| Arun | Kiran  |
+| None | Jack   |
+| Jack | Thomas |
++------+--------+
+5 rows in set (0.00 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
